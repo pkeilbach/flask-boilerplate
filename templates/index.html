@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Flask boilerplate by PK17{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Welcome to the Flask boilerplate project of PK17</h1>
+</div>
+
+{{ wtf.quick_form(form) }}
+
+<hr>
+
+{% if search_term %}
+<p>
+    <strong>Your last search: {{ search_term }} </strong>
+</p>
+{% endif %}
+
+<p>Current time: {{ moment(current_time).format('LLL') }} (updated {{ moment(current_time).fromNow(refresh=True) }}) </p>
+
+{% endblock %}

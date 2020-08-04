@@ -1,0 +1,92 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}Flask boilerplate by PK17{% endblock %}
+
+{% block head %}
+{{ super() }}
+<!--
+icon from https://www.flaticon.com/home
+we can use the "icon" only, instead of both "icon" and "shortcut icon".
+it seems to be a compatibility thing for old browsers
+https://stackoverflow.com/questions/25952907/what-is-the-best-practice-for-creating-a-favicon-on-a-web-site
+so this is not required basically
+<link rel="shortcut icon" href="{{ url_for('static', filename='img/cheetah.png') }}" type="image/x-icon">
+-->
+<link rel="icon" href="{{ url_for('static', filename='img/cheetah.png') }}" type="image/x-icon">
+<link rel="stylesheet", href="{{url_for('static', filename='css/footer.css')}}">
+{% endblock %}
+
+{% block navbar %}
+<!-- the navbar is from bootstrap v4 -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">
+      <!-- the brand image will display in the top left corner -->
+      <img alt="PK17 brand image" src="{{url_for('static', filename='img/cheetah.png')}}" width="30" height="30" class="d-inline-block align-top">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('index')}}">Menu 1</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('index')}}">Menu 2</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('index')}}">Menu 3</a></li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown Menu
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="{{ url_for('index') }}">Dropdown 1</a>
+          <a class="dropdown-item" href="{{ url_for('index') }}">Dropdown 2</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+
+<!-- alerting engine -->
+<div class="container">
+    {% for category, message in get_flashed_messages(with_categories=True) %}
+    {% if category == 'error' %}
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% elif category == 'warning' %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% else %}
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endif %}
+    {% endfor %}
+
+    {% block page_content %}
+    {% endblock %}
+</div>
+
+<!-- the footer was taken from https://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/
+ it requires the footer.css file (see head) -->
+<footer class="footer">
+  <div class="container">
+    <span class="text-muted">&copy; PK17</span>
+  </div>
+</footer>
+
+{% endblock %}
+
+<!-- good idea to include moment.js for timing capabilities https://momentjs.com/ -->
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment(local_js='static/moment/moment-with-locales.js') }}
+{% endblock %}
