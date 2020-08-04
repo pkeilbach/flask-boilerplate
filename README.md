@@ -5,3 +5,7 @@ This project serves as a strating point for future Flask projects. It is intende
 ## Usage
 To be added
 
+# TODO
+- add docker branch for dockerized environment
+- add template with a chart example
+- maybe add upload example
